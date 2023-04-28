@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
 
@@ -27,20 +26,20 @@ public class UserRestController {
     }
 
     @GetMapping("/users")
-    public List<User> getUsers(){
+    public List<User> findAll(){
         return userService.findAll();
     }
 
     @PostMapping("/users")
-    public User addUser(@RequestParam User user){
+    public User addUser(@RequestBody User user){
         User userToAdd = requireNonNull(user);
         userToAdd.setId(0);
-        return userService.update(userToAdd);
+        return userService.save(userToAdd);
     }
 
     @PutMapping("/users")
-    public User updateUser(@RequestParam User user){
-        return userService.update(requireNonNull(user, "User Not Found"));
+    public User updateUser(@RequestBody User user){
+        return userService.save(requireNonNull(user, "User Not Found"));
     }
 
     @DeleteMapping("/users/{userId}")

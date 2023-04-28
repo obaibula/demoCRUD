@@ -7,9 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "posts")
@@ -24,10 +22,10 @@ public class Post {
     private int id;
 
     @Column(name = "created_at")
-    private ZonedDateTime createdAt;
+    private OffsetDateTime createdAt;
 
     @Column(name = "updated_at")
-    private ZonedDateTime updatedAt;
+    private OffsetDateTime  updatedAt;
 
     @Column(name = "url", nullable = false)
     private String url;
@@ -41,12 +39,12 @@ public class Post {
     @Column(name = "lng")
     private Double lng;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
     @JsonBackReference
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "user_id")
     private User user;
 
-    public Post(ZonedDateTime createdAt, ZonedDateTime updatedAt, String url, String caption, Double lat, Double lng) {
+    public Post(OffsetDateTime  createdAt, OffsetDateTime  updatedAt, String url, String caption, Double lat, Double lng) {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.url = url;

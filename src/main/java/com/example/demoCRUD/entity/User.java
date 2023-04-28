@@ -1,14 +1,14 @@
 package com.example.demoCRUD.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
 
-import java.time.ZonedDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,11 +25,13 @@ public class User {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "created_at")
-    private ZonedDateTime createdAt;
+    @Column(name = "created_at",
+            nullable = false)
+    private OffsetDateTime createdAt;
 
-    @Column(name = "updated_at")
-    private ZonedDateTime updatedAt;
+    @Column(name = "updated_at",
+            nullable = false)
+    private OffsetDateTime updatedAt;
 
     @Column(name = "username", nullable = false)
     private String username;
@@ -49,12 +51,13 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<Post> posts = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,
+            orphanRemoval = true, mappedBy = "user")
+    private List<Post> posts;
 
 
-    public User(ZonedDateTime createdAt, ZonedDateTime updatedAt, String username, String bio, String avatar, String phone, String email, String password) {
+    public User(OffsetDateTime createdAt, OffsetDateTime updatedAt, String username, String bio, String avatar, String phone, String email, String password) {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.username = username;
@@ -65,11 +68,10 @@ public class User {
         this.password = password;
     }
 
-    public void add(Post post){
-        if(posts == null){
+    public void addPost(Post post) {
+        if (posts == null) {
             posts = new ArrayList<>();
         }
         posts.add(post);
-        post.setUser(this);
     }
 }

@@ -27,11 +27,17 @@ public class DemoSecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(customizer ->
-            customizer.requestMatchers(HttpMethod.GET, "/api/users").hasRole("EMPLOYEE")
+            customizer
+                    .requestMatchers(HttpMethod.GET, "/api/users").hasRole("EMPLOYEE")
                     .requestMatchers(HttpMethod.GET, "/api/users/**").hasRole("EMPLOYEE")
                     .requestMatchers(HttpMethod.POST, "/api/users").hasRole("MANAGER")
                     .requestMatchers(HttpMethod.PUT, "/api/users").hasRole("MANAGER")
                     .requestMatchers(HttpMethod.DELETE, "/api/users/**").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.GET, "/api/posts").hasRole("EMPLOYEE")
+                    .requestMatchers(HttpMethod.GET, "/api/posts/**").hasRole("EMPLOYEE")
+                    .requestMatchers(HttpMethod.POST, "/api/posts").hasRole("MANAGER")
+                    .requestMatchers(HttpMethod.PUT, "/api/posts").hasRole("MANAGER")
+                    .requestMatchers(HttpMethod.DELETE, "/api/posts/**").hasRole("ADMIN")
         );
 
         http.httpBasic();
