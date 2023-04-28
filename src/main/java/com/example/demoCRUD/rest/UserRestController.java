@@ -1,5 +1,6 @@
 package com.example.demoCRUD.rest;
 
+import com.example.demoCRUD.dto.UserDTO;
 import com.example.demoCRUD.entity.User;
 import com.example.demoCRUD.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +22,12 @@ public class UserRestController {
     }
 
     @GetMapping("/users/{userId}")
-    public User getUserById(@PathVariable int userId){
+    public UserDTO getUserById(@PathVariable int userId){
         return requireNonNull(userService.findById(userId), "User Not Found");
     }
 
     @GetMapping("/users")
-    public List<User> findAll(){
+    public List<UserDTO> findAll(){
         return userService.findAll();
     }
 
