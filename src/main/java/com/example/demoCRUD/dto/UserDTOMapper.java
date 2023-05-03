@@ -17,6 +17,7 @@ public class UserDTOMapper implements Function<User, UserDTO> {
                 user.getAvatar(),
                 user.getPhone(),
                 user.getEmail(),
+                user.getStatus(),
                 user.getPosts()
                         .stream()
                         .map(p -> String.valueOf(p.getId()))

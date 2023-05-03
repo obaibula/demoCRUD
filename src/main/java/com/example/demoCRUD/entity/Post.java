@@ -2,10 +2,7 @@ package com.example.demoCRUD.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.OffsetDateTime;
 
@@ -15,6 +12,7 @@ import java.time.OffsetDateTime;
 @Setter
 @NoArgsConstructor
 @ToString(exclude = "user")
+@EqualsAndHashCode
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +37,8 @@ public class Post {
     @Column(name = "lng")
     private Double lng;
 
+
+    //todo: correct and test this 2-way relationship
     @JsonBackReference
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "user_id")
